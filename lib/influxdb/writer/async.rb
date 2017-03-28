@@ -93,9 +93,6 @@ module InfluxDB
         end
 
         def check_background_queue(thread_num = 0)
-          log :debug,
-              "Checking background queue on thread #{thread_num} (#{current_thread_count} active)"
-
           loop do
             data = []
 
@@ -107,7 +104,6 @@ module InfluxDB
             return if data.empty?
 
             begin
-              log :debug, "Found data in the queue! (#{data.length} points)"
               client.write(data.join("\n"), nil)
             rescue => e
               log :error, "Cannot write data: #{e.inspect}"
